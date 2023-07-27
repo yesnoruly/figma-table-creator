@@ -16,22 +16,35 @@ figma.ui.onmessage = (msg) => {
 
   const nodes = [];
 
-  for (let i = 0; i < rows; i++) {
-    for (let y = 0; y < columns; y++) {
-      const cellNode = figma.createRectangle();
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < columns; c++) {
+      const cellNode: RectangleNode = figma.createRectangle();
 
-      cellNode.resize(parseInt(column_width), parseInt(row_height))
+      cellNode.resize(parseInt(column_width), parseInt(row_height));
 
-      cellNode.x = y * parseFloat(column_width);
-      cellNode.y = i * parseFloat(row_height);
+      // Set the x and y coordinates of a node in grid
+      cellNode.x = c * parseFloat(column_width);
+      cellNode.y = r * parseFloat(row_height);
 
-      cellNode.fills = [{ type: "SOLID", color: { r: 1, g: 0.5, b: 0 } }];
+      // Styling table
+      cellNode.fills = [
+        { type: "SOLID", color: { r: 0.82, g: 0.84, b: 0.84 } },
+      ];
+      // Borders
+      cellNode.strokes = [
+        {
+          type: "SOLID",
+          color: { r: 0, g: 0, b: 0 },
+        },
+      ];
+      cellNode.strokeAlign = "CENTER";
 
+      // Add new node in table
       figma.currentPage.appendChild(cellNode);
       nodes.push(cellNode);
     }
   }
-
+  // Select and zoom to created nodes
   figma.currentPage.selection = nodes;
   figma.viewport.scrollAndZoomIntoView(nodes);
 };
