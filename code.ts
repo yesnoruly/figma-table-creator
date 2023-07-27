@@ -16,15 +16,20 @@ figma.ui.onmessage = (msg) => {
 
   const nodes = [];
 
+  let i = 0;
+
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < columns; c++) {
-      const cellNode: RectangleNode = figma.createRectangle();
+      const cellNode = figma.createFrame();
+
+      // Sequence counter of the names in the table
+      cellNode.name = `${i++}`
 
       cellNode.resize(parseInt(column_width), parseInt(row_height));
 
       // Set the x and y coordinates of a node in grid
-      cellNode.x = c * parseFloat(column_width);
-      cellNode.y = r * parseFloat(row_height);
+      cellNode.x = c * parseInt(column_width);
+      cellNode.y = r * parseInt(row_height);
 
       // Styling table
       cellNode.fills = [
@@ -42,8 +47,19 @@ figma.ui.onmessage = (msg) => {
       // Add new node in table
       figma.currentPage.appendChild(cellNode);
       nodes.push(cellNode);
+
+      figma.closePlugin(
+        "The table was created. Press Ctrl + G to group it to your liking."
+      );
     }
   }
+
+  figma.group(nodes, figma.currentPage)
+
+  if (msg.type === "cancel") {
+    figma.closePlugin("Canceled");
+  }
+
   // Select and zoom to created nodes
   figma.currentPage.selection = nodes;
   figma.viewport.scrollAndZoomIntoView(nodes);

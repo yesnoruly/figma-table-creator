@@ -25,19 +25,24 @@
   const columnsInput = document.getElementById("columns");
   const columnWidthInput = document.getElementById("column-width");
   const rowHeightInput = document.getElementById("row-height");
-  const button = document.getElementById('create')
+  const create = document.getElementById('create');
+  const cancel = document.getElementById('cancel');
 
-  function whenButtonIsClicked() {
+  function onCreate() {
     const rows = rowsInput.value;
     const columns = columnsInput.value;
     const column_width = columnWidthInput.value;
     const row_height = rowHeightInput.value;
 
     parent.postMessage({ pluginMessage: {rows, columns, column_width, row_height}}, '*' );
-
   }
 
-  button.addEventListener('click', whenButtonIsClicked)
+  function onCancel() {
+    parent.postMessage({pluginMessage: {type: 'cancel'}}, '*')
+  }
+
+  create.addEventListener('click', onCreate)
+  cancel.addEventListener('click', onCancel)
 </script>
 
 <!-- STYLE -->
