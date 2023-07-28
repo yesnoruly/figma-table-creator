@@ -49,7 +49,7 @@ figma.ui.onmessage = (msg) => {
       nodes.push(cellNode);
 
       figma.closePlugin(
-        "The table was created. Press Ctrl + G to group it to your liking."
+        "The table was created"
       );
     }
   }
